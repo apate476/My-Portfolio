@@ -9,7 +9,7 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden">
+    <section className="relative min-h-[100svh] flex flex-col justify-center items-center overflow-hidden px-4 sm:px-6">
       <Particles
         id="tsparticles"
         init={particlesInit}
@@ -106,7 +106,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.4 }}
-          className="space-y-8"
+          className="space-y-12"
         >
           <p className="text-xl text-white/70 max-w-2xl mx-auto leading-relaxed">
             Crafting elegant solutions through code. Specialized in building

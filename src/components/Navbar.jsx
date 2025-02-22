@@ -1,19 +1,28 @@
 import { motion, useScroll } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { AnimatePresence } from "framer-motion";
+import avatar from "../assets/mypic.webp"; // Fixed import path
 
 export default function Navbar() {
   const { scrollY } = useScroll();
   const [active, setActive] = useState("about");
   const [isScrolled, setIsScrolled] = useState(false);
+  const [scrollDirection, setScrollDirection] = useState("none");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     return scrollY.onChange((latest) => {
       setIsScrolled(latest > 50);
+      const direction = latest > lastScrollY.current ? "down" : "up";
+      setScrollDirection(latest > 50 ? direction : "none");
+      lastScrollY.current = latest;
     });
   }, [scrollY]);
 
   const handleScroll = (section) => {
     setActive(section);
+    setIsMenuOpen(false); // Close mobile menu when navigating
     document.querySelector(`#${section}`).scrollIntoView({
       behavior: "smooth",
     });
@@ -22,14 +31,27 @@ export default function Navbar() {
   return (
     <motion.nav
       initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      className={`fixed top-0 left-0 w-full backdrop-blur-md ${
+      animate={{
+        y: 0,
+        transition: { duration: 0.3 },
+      }}
+      className={`fixed top-0 left-0 right-0 w-screen max-w-[100vw] backdrop-blur-md ${
         isScrolled ? "bg-[#2a1352]/50" : "bg-[#1f0f37]/40"
-      } border-b border-[#6b21a8]/30 z-50 transition-colors duration-300`}
+      } border-b border-[#6b21a8]/30 z-[100] transition-colors duration-300`}
     >
-      <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+      <div className="w-full mx-auto px-4 py-3 md:px-12 md:py-3 flex justify-between items-center relative">
+        {/* Scroll Direction Indicator - Just the line */}
+        <div className="absolute bottom-0 left-0 right-0 h-0.5">
+          <motion.div
+            className="h-full bg-purple-400"
+            initial={{ width: "0%" }}
+            animate={{ width: scrollDirection === "down" ? "100%" : "0%" }}
+            transition={{ duration: 0.2 }}
+          />
+        </div>
+
         {/* Social Icons */}
-        <div className="flex gap-8">
+        <div className="flex gap-4 md:gap-8">
           <motion.a
             href="https://github.com/apate476"
             target="_blank"
@@ -56,38 +78,91 @@ export default function Navbar() {
           </motion.a>
         </div>
 
-        {/* Navigation Links */}
-        <div className="flex gap-12">
-          {["about", "skills", "projects", "contact"].map((item) => (
-            <motion.div
-              key={item}
-              className="relative"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <motion.a
-                href={`#${item}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleScroll(item);
-                }}
-                className="text-[#e9d5ff] hover:text-white transition-colors capitalize text-lg"
-              >
-                {item}
-              </motion.a>
-              {active === item && (
-                <motion.div
-                  className="absolute -bottom-1 left-0 right-0 h-0.5 bg-[#d8b4fe]"
-                  layoutId="underline"
-                  transition={{ type: "spring", bounce: 0.25 }}
-                />
-              )}
-            </motion.div>
-          ))}
+        {/* Mobile Avatar */}
+        <div className="md:hidden">
+          <motion.img
+            src={avatar}
+            alt="Avatar"
+            className="w-14 h-14 rounded-full border-2 border-purple-500/30"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+          />
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex gap-6 items-center">
+        {/* Main Navigation */}
+        <div className="hidden md:flex items-center gap-16">
+          {/* Left Links */}
+          <div className="flex gap-12">
+            {["about", "skills"].map((item) => (
+              <motion.div
+                key={item}
+                className="relative"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <motion.a
+                  href={`#${item}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleScroll(item);
+                  }}
+                  className="text-[#e9d5ff] hover:text-white transition-colors capitalize text-lg"
+                >
+                  {item}
+                </motion.a>
+                {active === item && (
+                  <motion.div
+                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-[#d8b4fe]"
+                    layoutId="underline"
+                    transition={{ type: "spring", bounce: 0.25 }}
+                  />
+                )}
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Avatar Logo */}
+          <motion.img
+            src={avatar}
+            alt="Avatar"
+            className="w-12 h-12 sm:w-14 sm:h-14 rounded-full border-2 border-purple-500/30"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+          />
+
+          {/* Right Links */}
+          <div className="flex gap-12">
+            {["projects", "contact"].map((item) => (
+              <motion.div
+                key={item}
+                className="relative"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <motion.a
+                  href={`#${item}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleScroll(item);
+                  }}
+                  className="text-[#e9d5ff] hover:text-white transition-colors capitalize text-lg"
+                >
+                  {item}
+                </motion.a>
+                {active === item && (
+                  <motion.div
+                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-[#d8b4fe]"
+                    layoutId="underline"
+                    transition={{ type: "spring", bounce: 0.25 }}
+                  />
+                )}
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* Resume Button */}
+        <div className="hidden md:flex">
           <motion.a
             href="/resume"
             whileHover={{ scale: 1.1 }}
@@ -99,17 +174,105 @@ export default function Navbar() {
             Resume
           </motion.a>
         </div>
+
+        {/* Mobile Menu Button */}
+        <button
+          className="md:hidden text-white p-2 relative z-50"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          <svg
+            className="w-8 h-8"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            {isMenuOpen ? (
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            ) : (
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            )}
+          </svg>
+        </button>
       </div>
-      <motion.div
-        className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-purple-500 to-blue-500"
-        style={{
-          width: `${
-            (scrollY.get() /
-              (document.documentElement.scrollHeight - window.innerHeight)) *
-            100
-          }%`,
-        }}
-      />
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.2 }}
+            className="fixed left-0 right-0 top-[3.5rem] bg-[#2a1352]/95 backdrop-blur-md md:hidden min-h-[calc(100vh-3.5rem)] w-screen max-w-[100vw] overflow-hidden"
+            style={{ touchAction: "none" }}
+          >
+            <div className="flex flex-col items-center justify-center h-full py-8 space-y-8 px-6">
+              {["about", "skills"].map((item) => (
+                <motion.a
+                  key={item}
+                  href={`#${item}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleScroll(item);
+                    setIsMenuOpen(false);
+                  }}
+                  className="text-[#e9d5ff] hover:text-white transition-colors capitalize text-xl"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {item}
+                </motion.a>
+              ))}
+
+              {/* Avatar in mobile menu */}
+              <motion.img
+                src={avatar}
+                alt="Avatar"
+                className="w-24 h-24 rounded-full border-2 border-purple-500/30 my-4"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+              />
+
+              {["projects", "contact"].map((item) => (
+                <motion.a
+                  key={item}
+                  href={`#${item}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleScroll(item);
+                    setIsMenuOpen(false);
+                  }}
+                  className="text-[#e9d5ff] hover:text-white transition-colors capitalize text-xl"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {item}
+                </motion.a>
+              ))}
+              <motion.a
+                href="/resume"
+                className="mt-2 px-6 py-2 rounded-full bg-purple-500/20 text-white border border-purple-500/30 hover:bg-purple-500/30 transition-colors text-lg"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Resume
+              </motion.a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.nav>
   );
 }

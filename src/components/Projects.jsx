@@ -3,62 +3,66 @@ import { projects } from "../data/projects";
 
 export default function Projects() {
   return (
-    <section id="projects" className="min-h-screen py-20 px-4">
-      <div className="relative mb-20">
+    <section id="projects" className="min-h-screen py-12 sm:py-20 px-4">
+      <div className="relative mb-12 sm:mb-20">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          className="text-6xl font-bold text-center"
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-4 text-white"
         >
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-200 via-white to-purple-200">
-            Featured Projects
-          </span>
+          <span>Featured Projects</span>
         </motion.h2>
         <div className="absolute -top-8 left-1/2 -translate-x-1/2 w-64 h-64 bg-purple-500/10 rounded-full blur-[100px]" />
         <motion.div
           initial={{ width: 0 }}
           whileInView={{ width: "150px" }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="h-1 bg-gradient-to-r from-transparent via-purple-400 to-transparent mx-auto mt-4"
+          className="h-1 bg-gradient-to-r from-transparent via-purple-400 to-transparent mx-auto mt-1"
         />
       </div>
 
       <div className="max-w-4xl mx-auto relative">
-        {/* Timeline line */}
-        <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-gradient-to-b from-purple-500/20 via-white/10 to-purple-500/20" />
+        {/* Vertical Timeline - Desktop Only */}
+        <div className="hidden sm:block absolute left-1/2 top-0 bottom-0 w-px bg-purple-500/20 -translate-x-1/2" />
 
         {/* Project cards */}
         {projects.map((project, index) => (
           <motion.div
             key={index}
-            initial={{ opacity: 0, x: index % 2 === 0 ? -100 : 100 }}
+            initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6, delay: index * 0.2 }}
-            className={`relative mb-16 ${
+            className={`relative mb-12 sm:mb-16 ${
               index % 2 === 0
-                ? "pr-8 md:ml-auto md:mr-[50%]"
-                : "pl-8 md:mr-auto md:ml-[50%]"
+                ? "sm:pr-8 sm:ml-auto sm:mr-[50%]"
+                : "sm:pl-8 sm:mr-auto sm:ml-[50%]"
             }`}
           >
             {/* Project card */}
-            <div className="backdrop-blur-xl bg-white/10 rounded-2xl p-6 border border-white/20">
-              <h3 className="text-2xl font-bold text-white/90 mb-2">
+            <div className="backdrop-blur-xl bg-white/10 rounded-2xl p-4 sm:p-6 border border-white/20">
+              <h3 className="text-xl sm:text-2xl font-bold text-white/90 mb-2">
                 {project.title}
               </h3>
-              <h4 className="text-lg text-purple-300 mb-4">{project.role}</h4>
-              <p className="text-white/70 mb-4">{project.description}</p>
-              <ul className="list-disc list-inside text-white/60 space-y-2">
+              <h4 className="text-base sm:text-lg text-purple-300 mb-4">
+                {project.role}
+              </h4>
+              <p className="text-sm sm:text-base text-white/70 mb-4">
+                {project.description}
+              </p>
+              <ul className="text-sm sm:text-base list-disc list-inside text-white/60 space-y-2">
                 {project.achievements.map((achievement, i) => (
                   <li key={i}>{achievement}</li>
                 ))}
               </ul>
-              <div className="mt-6 flex gap-4">
+              <div className="mt-6 flex flex-wrap gap-3 sm:gap-4">
                 <a
                   href={project.liveLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-6 py-2 rounded-full bg-purple-500/20 text-purple-200 hover:bg-purple-500/30 transition-all duration-300 flex items-center gap-2"
+                  className="px-4 sm:px-6 py-2 rounded-full bg-purple-500/20 text-purple-200 hover:bg-purple-500/30 transition-all duration-300 flex items-center gap-2 text-sm sm:text-base"
                 >
                   <span>View Live</span>
                   <svg
@@ -80,7 +84,7 @@ export default function Projects() {
                   href={project.githubLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-6 py-2 rounded-full bg-white/10 text-white/90 hover:bg-white/20 transition-all duration-300 flex items-center gap-2"
+                  className="px-4 sm:px-6 py-2 rounded-full bg-white/10 text-white/90 hover:bg-white/20 transition-all duration-300 flex items-center gap-2 text-sm sm:text-base"
                 >
                   <span>GitHub</span>
                   <svg

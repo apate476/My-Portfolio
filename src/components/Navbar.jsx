@@ -234,15 +234,6 @@ export default function Navbar() {
                 </motion.a>
               ))}
 
-              {/* Avatar in mobile menu */}
-              <motion.img
-                src={avatar}
-                alt="Avatar"
-                className="w-24 h-24 rounded-full border-2 border-purple-500/30 my-4"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-              />
-
               {["projects", "contact"].map((item) => (
                 <motion.a
                   key={item}

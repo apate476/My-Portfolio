@@ -1,7 +1,8 @@
 import { motion, useScroll } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import { AnimatePresence } from "framer-motion";
-import avatar from "../assets/mypic.webp"; // Fixed import path
+import avatar from "../assets/mypic.webp";
+import resume from "/Newtech_copy.pdf";
 
 export default function Navbar() {
   const { scrollY } = useScroll();
@@ -164,7 +165,7 @@ export default function Navbar() {
         {/* Resume Button */}
         <div className="hidden md:flex">
           <motion.a
-            href="/resume"
+            href={resume}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             className="px-5 py-2 rounded-full bg-purple-500/20 text-white border border-purple-500/30 hover:bg-purple-500/30 transition-colors"

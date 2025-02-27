@@ -4,8 +4,8 @@ export const projects = [
     role: "Full-stack Developer",
     description:
       "Developed a full-stack e-commerce platform for a premium online ice cream shop using the PERN stack (PostgreSQL, Express.js, React.js, Node.js).",
-    liveLink: "", // TODO: Add your live link
-    githubLink: "", // TODO: Add your GitHub link
+    liveLink: "",
+    githubLink: "https://github.com/apate476/Dream-Cream",
     achievements: [
       "Built a dynamic, responsive user interface with React.js",
       "Designed and managed product and user databases using PostgreSQL",
@@ -19,8 +19,8 @@ export const projects = [
     role: "Frontend Developer",
     description:
       "Developed a responsive digital library application using React.js and custom CSS.",
-    liveLink: "", // TODO: Add your live link
-    githubLink: "", // TODO: Add your GitHub link
+    liveLink: "https://libraryapplication1.netlify.app/",
+    githubLink: "https://github.com/apate476/BookBuddy-Project",
     achievements: [
       "Designed a scalable, component-based frontend with React.js",
       "Integrated the BookBuddy API to dynamically fetch and display book data",
@@ -34,8 +34,8 @@ export const projects = [
     role: "Frontend Developer",
     description:
       "Developed an interactive browser-based game using JavaScript, HTML, and CSS.",
-    liveLink: "", // TODO: Add your live link
-    githubLink: "", // TODO: Add your GitHub link
+    liveLink: "https://guessthenumber2020.netlify.app/",
+    githubLink: "https://github.com/apate476/GuessMyNumber",
     achievements: [
       "Utilized JavaScript to handle user inputs and generate dynamic responses",
       "Designed a responsive and user-friendly interface using HTML and CSS",
